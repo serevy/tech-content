@@ -15,6 +15,7 @@ evidence:
   - AGENTS.md
   - articles/pddr-kit-ai-decision-memory.md
   - https://github.com/serevy/tech-content/pull/1
+  - https://github.com/serevy/tech-content/pull/2
 related: []
 supersedes: []
 superseded_by: null
@@ -26,7 +27,7 @@ superseded_by: null
 
 技術記事と研究解説の原稿は、特定の投稿サービス専用リポジトリではなく `serevy/tech-content` を正本として管理する。日本語記事は `articles/` からZennへ連携し、英語版は `articles_en/` で英語圏向けにローカライズする。英語版の最終配信先と自動公開フローは、実運用前に別途決定する。
 
-日本語の執筆・推敲では `natural-japanese` を編集支援として利用できるが、技術的事実、Evidence、引用、コードを変更する根拠としては扱わない。
+日本語の執筆・推敲では `natural-japanese` を編集支援として利用できるが、技術的事実、Evidence、引用、コードを変更する根拠としては扱わない。生成AIを構成・執筆・推敲・翻訳・画像生成などに利用した公開記事では、記事末尾に利用範囲を短く明示する。
 
 ## Context and observations
 
@@ -67,6 +68,8 @@ superseded_by: null
 
 日本語記事では、利用可能な場合に `coji/natural-japanese` を執筆・推敲支援として使う。ただし、文章編集と事実判断を分離し、Evidenceにない理由や技術的主張を追加しない。
 
+生成AIを構成・執筆・推敲・翻訳・画像生成などに利用した公開記事では、記事末尾に利用範囲を短く明示する。AI利用を一括りにせず、実際に利用した工程だけを書き、筆者が確認・編集した範囲も明確にする。
+
 英語版の最終配信先はこのPDDRでは固定しない。候補の比較と公開自動化は、実際に英語記事を配信する段階で判断する。
 
 ## Delivery and validation
@@ -87,14 +90,16 @@ GitHubリポジトリとZennの `main` ブランチ連携は設定済み。
 - Zenn以外の媒体がGitHub上のディレクトリ構成へ強い制約を要求するとき。
 - 記事のライセンス方針を決めるとき。
 - natural-japaneseの利用が技術表現や筆者の文体を損なうケースが継続して発生したとき。
+- AI assistance disclosureの既定文が、媒体の要件や実際の利用範囲と合わなくなったとき。
 - 公開承認フローを自動化するとき。
 
 ## Evidence
 
 - `README.md`: リポジトリの対象コンテンツとディレクトリ方針。
-- `AGENTS.md`: 公開安全策、日英執筆ルール、PDDR運用条件。
+- `AGENTS.md`: 公開安全策、日英執筆ルール、AI assistance disclosure、PDDR運用条件。
 - `articles/pddr-kit-ai-decision-memory.md`: 最初のZenn向けdraft。
 - [PR #1](https://github.com/serevy/tech-content/pull/1): 初期セットアップと導入差分。
+- [PR #2](https://github.com/serevy/tech-content/pull/2): AI assistance disclosure方針の追加。
 - ZennのGitHub連携設定: `serevy/tech-content` の `main` がデプロイ対象。設定はリポジトリ外のため、公開PDDRには認証情報や非公開設定値を含めない。
 
 ## Related records
