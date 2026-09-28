@@ -1,0 +1,5 @@
+{
+  "records_dir": "docs/records",
+  "specification": ".pddr/specification.md",
+  "template": ".pddr/template.md"
+}
