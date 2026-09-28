@@ -14,6 +14,7 @@ evidence:
   - README.md
   - AGENTS.md
   - articles/pddr-kit-ai-decision-memory.md
+  - https://github.com/serevy/tech-content/pull/1
 related: []
 supersedes: []
 superseded_by: null
@@ -93,6 +94,7 @@ GitHubリポジトリとZennの `main` ブランチ連携は設定済み。
 - `README.md`: リポジトリの対象コンテンツとディレクトリ方針。
 - `AGENTS.md`: 公開安全策、日英執筆ルール、PDDR運用条件。
 - `articles/pddr-kit-ai-decision-memory.md`: 最初のZenn向けdraft。
+- [PR #1](https://github.com/serevy/tech-content/pull/1): 初期セットアップと導入差分。
 - ZennのGitHub連携設定: `serevy/tech-content` の `main` がデプロイ対象。設定はリポジトリ外のため、公開PDDRには認証情報や非公開設定値を含めない。
 
 ## Related records
