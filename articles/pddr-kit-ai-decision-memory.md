@@ -154,3 +154,7 @@ https://github.com/serevy/pddr-kit
 - [窪内 彩佳「AIとの対話履歴を資産にする。DDR（Design Decision Record）自動記録の仕組み」](https://zenn.dev/softbank/articles/ee93e87a9d5dac)
 - [Michael Nygard, "Documenting Architecture Decisions"](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 - [Markdown Architectural Decision Records (MADR)](https://adr.github.io/madr/)
+
+---
+
+※ 本記事では、構成・執筆・推敲の補助に生成AIを利用しています。内容は筆者が確認・編集しています。
