@@ -85,3 +85,15 @@ checkpointを実施したこと自体はPDDR作成理由にしません。durabl
 - `validated` には確認内容が分かるEvidenceを付ける。
 - PDDRを無条件のPolicyや実行命令として扱わない。
 - 変更後に `python .pddr/pddr.py validate` を実行する。
+
+## GitHub Actions
+
+CIを作成・変更するときは、次の点を確認する。
+
+- 必要な検証に合わせてtrigger、path、job、matrixを選ぶ。実行条件の変更やジョブ統合では、required checkの名前と失敗検知を維持する。
+- 実測に基づく明示的なjob timeoutを設定する。PDDR検証は5分とする。古いread-only検証の取消しは同一workflow・同一PRに限定し、PR以外はrefとrun IDでgroupを分けてmainや手動実行を独立させる。
+- jobの権限は必要最小限にし、信頼されていないPRの検証とリポジトリへ書き込むjobを分離する。
+- 依存関係、cache、artifactは効果を確認して追加する。cache keyとartifact保持期間を明示的に検討する。標準ライブラリだけで動くPDDR検証には追加の依存関係やcacheを導入しない。
+- PRには期待する効果、workflow/job数、検証結果、観測したjob実行時間を記録する。実行時間の観測と課金上の使用量を区別する。
+
+PDDRのworkflowは任意の導入設定であり、Kitのmanaged file更新には含まれない。[PDDR Kit導入ガイド](https://github.com/serevy/pddr-kit/blob/main/docs/adoption.md#github-actions)を参照して、workflowの更新を明示的に採用する。このリポジトリでは[PDDR Kit #47](https://github.com/serevy/pddr-kit/issues/47)のCI実行上限・取消し範囲の設定を採用する。
