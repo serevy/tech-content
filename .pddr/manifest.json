@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "kit_version": "0.2.1",
+  "kit_version": "0.3.0",
   "managed_files": {
-    ".pddr/pddr.py": "sha256:4234784ee64cc360627cc3f1a0b2df2bac8bc8d46fdb9da7982374373c9b97d7",
-    ".pddr/specification.md": "sha256:13ae16c57e59a448cc75fec002f95a747082dc81d023fed22ee2e1838743392b",
+    ".pddr/pddr.py": "sha256:f8838b66d0d551c098dc009c482e5f6b0efdf8f693c6139717007ae3b6e7e2e7",
+    ".pddr/specification.md": "sha256:9a4d96b166423eaa502d508d36b720a90d3e0ddf51aaa0016da697bbb77e59cd",
     ".pddr/template.md": "sha256:018b33390d8d878b8c91ff1103ea03bf971fb439697c200e3ccc0a86e1cabf56"
   }
 }
