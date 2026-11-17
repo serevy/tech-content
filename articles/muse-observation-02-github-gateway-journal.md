@@ -53,9 +53,11 @@ GitHub公式ドキュメントでも、Installation TokenはAppに許された�
 
 https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation
 
-## CloudflareのログインとHTTP 403で詰まった
+## クラウドブラウザでDashboardにログインできなかった
 
-Gatewayをデプロイする段階では、ChatGPTのクラウドブラウザからCloudflare Dashboardへのログインが進まなかった。原因は特定できていないので、Cloudflareが常にクラウドブラウザを拒否するという話ではない。
+Gatewayをデプロイする段階では、ChatGPTのクラウドブラウザからCloudflare Dashboardへのログインが進まなかった。
+
+[Cloudflare公式の対応ブラウザの説明](https://developers.cloudflare.com/cloudflare-challenges/reference/supported-browsers/)には、Challenge PagesやTurnstileなどで使われる本番の認証チャレンジについて、自動操作ブラウザはサポート対象外と明記されている。自動化されたクラウドブラウザがBot対策のチェックを通過できなかった可能性はある。ただし、今回のDashboardへのログインで実際にどの判定が働いたかは確認できていない。Cloudflareがすべてのクラウドブラウザを拒否する、と断定するものではない。
 
 今回はWrangler CLIのデバイス認証を使った。
 
@@ -66,9 +68,11 @@ npx wrangler whoami
 
 CLIに表示される案内に従い、本人が別端末で承認する。遠隔環境でブラウザのコールバックが扱いにくい場合にも使える方法で、[Cloudflareの公式ドキュメント](https://developers.cloudflare.com/workers/wrangler/commands/general/)に載っている。認証コードやトークンはチャットやリポジトリに残さない。
 
+## HTTP 403はGatewayの認証エラーではなかった
+
 次に詰まったのは、Museの送信ヘルパーからGatewayへ送ったHTTPリクエストだった。Museからの報告では、最初は403。応答情報を追加して再確認すると、Cloudflareの `error code: 1010`、`text/plain`、Gatewayの監査IDなし、という結果になった。
 
-これはGateway自身が返すJSONの認証エラーとは様子が違う。[Cloudflareの公式説明](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/)によれば、`workers.dev` ではBrowser Integrity Checkが働き、Pythonの一部の標準User-Agentを持つ自動クライアントが**Workerの実行前に**1010で拒否される場合がある。Workerのログに出ないこともある。
+これはGateway自身が返すJSONの認証エラーとは様子が違う。[Cloudflare公式のError 1010の説明](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1010/)によれば、1010はブラウザの特徴に基づくアクセス拒否だ。`workers.dev` ではBrowser Integrity Checkが働き、Pythonの `urllib` などの既定User-Agentを持つクライアントが**Workerの実行前に**HTTP 403と1010で拒否される場合がある。Workerのログにも残らない。
 
 Muse側が送信時にアプリを識別できるUser-Agentへ変更したところ、今度はGateway形式のJSONで `503 journal_writes_disabled` が返ったと報告された。当時は認証試験用に日記の書き込みを無効にしていたため、これはWorkerへ到達し、認証経路を通って書込禁止の判定まで進んだことと整合する。
 
@@ -103,6 +107,8 @@ Muse側が送信時にアプリを識別できるUser-Agentへ変更したとこ
 - [GitHub Docs：GitHub Appのインストール範囲](https://docs.github.com/en/apps/using-github-apps/installing-a-github-app-from-a-third-party)
 - [GitHub Docs：Installation Tokenでの認証](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation)
 - [Cloudflare Docs：workers.devのBrowser Integrity Check](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/)
+- [Cloudflare Docs：自動操作ブラウザとChallengeの対応状況](https://developers.cloudflare.com/cloudflare-challenges/reference/supported-browsers/)
+- [Cloudflare Docs：Error 1010](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1010/)
 - [Cloudflare Docs：Wranglerのログイン方法](https://developers.cloudflare.com/workers/wrangler/commands/general/)
 
 ※ 本記事では、構成・下書き・推敲に生成AIを利用しています。実際の設定・観察結果・公開範囲は筆者が確認するものとし、私的な日記と認証情報は公開しません。
