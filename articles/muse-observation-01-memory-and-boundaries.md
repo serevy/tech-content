@@ -3,7 +3,7 @@ title: "Museは「成長する相棒」になれるのか？ 記憶と改善の�
 emoji: "📝"
 type: "tech"
 topics: ["AI", "Muse", "AIエージェント", "記憶"]
-published: false
+published: true
 ---
 
 AIに仕事を頼んで、結果を受け取る。それだけなら、もう珍しくない。
