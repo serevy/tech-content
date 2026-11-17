@@ -16,12 +16,15 @@ evidence:
   - articles/pddr-kit-ai-decision-memory.md
   - https://github.com/serevy/tech-content/pull/1
   - https://github.com/serevy/tech-content/pull/2
-related: []
+related:
+  - PDDR-0002
 supersedes: []
 superseded_by: null
 ---
 
 # PDDR-0001: GitHub-backed multilingual publishing workflow
+
+> 2026-11-17 追記: 日本語の執筆・推敲スキルの選定は [PDDR-0002](PDDR-0002-japanese-editorial-skill.md) で更新した。以下は当時の判断の記録であり、その他の公開・多言語運用方針は引き続き有効。
 
 ## Summary
 
