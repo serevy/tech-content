@@ -20,18 +20,11 @@ GitHubを原稿の正本とし、日本語記事は主にZenn向け、英語記�
 
 ## Japanese writing
 
-日本語記事の執筆・推敲では、利用可能な場合は
-[coji/natural-japanese](https://github.com/coji/natural-japanese)
-を編集支援として使用します。
-
-ローカルの対応エージェントでは、例えば次の方法で導入できます。
-
-```bash
-npx openskills install coji/natural-japanese
-npx openskills sync
-```
-
-natural-japaneseは「何が事実か」を決める情報源ではなく、「どう自然に伝えるか」を改善する編集レイヤーとして扱います。
+日本語記事の執筆・推敲には、リポジトリ内の
+[yomiyasu](.agents/skills/yomiyasu/SKILL.md)（`nanaism/yomiyasu` v3.1.0）を使用します。
+推敲に入る前に `SKILL.md` を読み、文書種別に応じた手順と検査を適用してください。
+他の文章推敲スキルを重ねがけせず、編集ルールは `yomiyasu` に一本化します。
+AIが書いた本文の検査結果も最終判断の代わりにはなりません。
 
 - 技術的な事実、バージョン番号、コード、コマンド、引用、URL、固有名詞を文章上の都合で改変しない。
 - Evidenceにない理由や効果を補完しない。

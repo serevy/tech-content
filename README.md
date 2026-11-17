@@ -23,7 +23,9 @@ The destination and automation for English publishing are intentionally not fixe
 
 Repository-specific authoring and review rules live in [AGENTS.md](AGENTS.md).
 
-Japanese writing may use [coji/natural-japanese](https://github.com/coji/natural-japanese) as an editorial aid. It must not be used to invent or alter technical facts, evidence, quotations, code, URLs, or version numbers.
+For Japanese articles, use the repository-pinned [yomiyasu](.agents/skills/yomiyasu/SKILL.md) v3.1.0 editorial skill, without stacking a second rewriting skill. It must not be used to invent or alter technical facts, evidence, quotations, code, URLs, or version numbers.
+
+The bundled skill is from [nanaism/yomiyasu](https://github.com/nanaism/yomiyasu/tree/v3.1.0/skills/yomiyasu). Update the pinned copy and its version references together in a separate reviewed PR.
 
 ## PDDR
 
