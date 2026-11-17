@@ -57,7 +57,9 @@ https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-githu
 
 Gatewayをデプロイする段階では、ChatGPTのクラウドブラウザからCloudflare Dashboardへのログインが進まなかった。
 
-[Cloudflare公式の対応ブラウザの説明](https://developers.cloudflare.com/cloudflare-challenges/reference/supported-browsers/)には、Challenge PagesやTurnstileなどで使われる本番の認証チャレンジについて、自動操作ブラウザはサポート対象外と明記されている。自動化されたクラウドブラウザがBot対策のチェックを通過できなかった可能性はある。ただし、今回のDashboardへのログインで実際にどの判定が働いたかは確認できていない。Cloudflareがすべてのクラウドブラウザを拒否する、と断定するものではない。
+[Cloudflare公式の対応ブラウザの説明](https://developers.cloudflare.com/cloudflare-challenges/reference/supported-browsers/)には、Challenge PagesやTurnstileなどで使われる本番の認証チャレンジについて、自動操作ブラウザはサポート対象外と明記されている。また、[Cloudflare公式GitHubのIssue](https://github.com/cloudflare/workers-sdk/issues/3672)には、WranglerのOAuthログインでBot判定によるHTTP 403が起きた事例があり、メンテナーも判定条件の幅広さを説明している。
+
+自動化されたクラウドブラウザがBot対策のチェックを通過できなかった可能性はある。ただし、GitHubの事例はCLIのOAuth認証に関するものだ。今回のDashboardへのログインで実際にどの判定が働いたかは確認できていない。Cloudflareがすべてのクラウドブラウザを拒否する、と断定するものではない。
 
 今回はWrangler CLIのデバイス認証を使った。
 
@@ -72,7 +74,9 @@ CLIに表示される案内に従い、本人が別端末で承認する。遠�
 
 次に詰まったのは、Museの送信ヘルパーからGatewayへ送ったHTTPリクエストだった。Museからの報告では、最初は403。応答情報を追加して再確認すると、Cloudflareの `error code: 1010`、`text/plain`、Gatewayの監査IDなし、という結果になった。
 
-これはGateway自身が返すJSONの認証エラーとは様子が違う。[Cloudflare公式のError 1010の説明](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1010/)によれば、1010はブラウザの特徴に基づくアクセス拒否だ。`workers.dev` ではBrowser Integrity Checkが働き、Pythonの `urllib` などの既定User-Agentを持つクライアントが**Workerの実行前に**HTTP 403と1010で拒否される場合がある。Workerのログにも残らない。
+これはGateway自身が返すJSONの認証エラーとは様子が違う。[Cloudflare公式のHTTP 403の説明](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/4xx-client-error/error-403/)でも、403にはWAFやBrowser Integrity Check、Cloudflare固有の1xxxエラーなど、複数の原因があるとされている。
+
+[Cloudflare公式のError 1010の説明](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1010/)によれば、1010はブラウザの特徴に基づくアクセス拒否だ。`workers.dev` ではBrowser Integrity Checkが働き、Pythonの `urllib` などの既定User-Agentを持つクライアントが**Workerの実行前に**HTTP 403と1010で拒否される場合がある。Workerのログにも残らない。
 
 Muse側が送信時にアプリを識別できるUser-Agentへ変更したところ、今度はGateway形式のJSONで `503 journal_writes_disabled` が返ったと報告された。当時は認証試験用に日記の書き込みを無効にしていたため、これはWorkerへ到達し、認証経路を通って書込禁止の判定まで進んだことと整合する。
 
@@ -108,7 +112,9 @@ Muse側が送信時にアプリを識別できるUser-Agentへ変更したとこ
 - [GitHub Docs：Installation Tokenでの認証](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation)
 - [Cloudflare Docs：workers.devのBrowser Integrity Check](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/)
 - [Cloudflare Docs：自動操作ブラウザとChallengeの対応状況](https://developers.cloudflare.com/cloudflare-challenges/reference/supported-browsers/)
+- [Cloudflare Docs：HTTP 403の原因](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/4xx-client-error/error-403/)
 - [Cloudflare Docs：Error 1010](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1010/)
 - [Cloudflare Docs：Wranglerのログイン方法](https://developers.cloudflare.com/workers/wrangler/commands/general/)
+- [Cloudflare GitHub：WranglerのOAuthログインとBot判定の事例](https://github.com/cloudflare/workers-sdk/issues/3672)
 
 ※ 本記事では、構成・下書き・推敲に生成AIを利用しています。実際の設定・観察結果・公開範囲は筆者が確認するものとし、私的な日記と認証情報は公開しません。
